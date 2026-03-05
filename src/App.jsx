@@ -1,5 +1,22 @@
-const App = () => {
-  return <div> welcome</div>
-}
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import Splash from "./Splash";
+import CameraContainer from "./CameraContainer"
+import GenereateText from "./GenerateText";
+import { ImageProvider } from "./context/ImageContext";
 
-export default App
+const App = () => {
+  return (
+        <ImageProvider>
+    <BrowserRouter>
+      <Routes>
+
+        <Route path="/" element={<Splash />} />
+        <Route path="/camera" element={<CameraContainer />} />
+        <Route path="/generate" element={<GenereateText />} />
+      </Routes>
+    </BrowserRouter>
+        </ImageProvider>
+  );
+};
+
+export default App;
