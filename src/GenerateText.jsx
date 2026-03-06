@@ -108,9 +108,9 @@ const GenerateText = () => {
 
         {/* buttons */}
         {processing ? processingUI() : (
-          <div className="flex justify-between">
+          <div className="flex justify-around">
             <button
-              style={{ ...styles.button, background: "red" }}
+              style={{ background: "red" }}
               onClick={() => {
                 handleOCR();
               }}
@@ -118,7 +118,7 @@ const GenerateText = () => {
               No. Process Again
             </button>
             <button
-              style={{ ...styles.button, backgroundColor: "green" }}
+              style={{backgroundColor: "green" }}
               onClick={() => console.log(generatedText)}
             >
               Yes. Proceed
@@ -143,13 +143,5 @@ const styles = {
     padding: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.75)",
   },
-  button: {
-    backgroundColor: "white",
-    margin: "3px",
-    padding: "5px",
-    borderRadius: "5px",
-    borderWidth: "3px",
-    borderStyle: "outset",
-    width: "45%",
-  },
+
 };
