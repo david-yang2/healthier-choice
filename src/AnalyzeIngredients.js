@@ -2,15 +2,12 @@
 // if matched, update isBanned to true, else return original object
 const checkBanned = (bannedArr, ingredientObj) => {
   const ingredient = ingredientObj.ingredient.toLowerCase();
-
   // try exact match first
   let matchedWord = bannedArr.find((item) => item === ingredient);
-
   // if no exact match, try substring match
   if (!matchedWord) {
     matchedWord = bannedArr.find((item) => ingredient.includes(item));
   }
-
   // if match found, return new object with isBanned true and the matched banned word
   if (matchedWord) {
     return {
@@ -19,7 +16,6 @@ const checkBanned = (bannedArr, ingredientObj) => {
       bannedMatch: matchedWord, // 👈 this is the word that triggered it
     };
   }
-
   // otherwise return original object with isBanned false
   return ingredientObj;
 };
@@ -44,6 +40,5 @@ export const AnalyzeIngredients = (
   const foundBanned = ingredientsToAnalyze.map((ingredientObj) =>
     checkBanned(bannedLowered, ingredientObj),
   );
-  console.log("this is found banned", foundBanned);
   return foundBanned;
 };
