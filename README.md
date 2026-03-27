@@ -1,16 +1,47 @@
-# React + Vite
+# Healthier Choice
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Healthier Choice is a React + Vite app that helps users scan packaged food labels, extract ingredients with OCR, and flag potentially harmful ingredients using Whole Foods’ banned ingredients list.
 
-Currently, two official plugins are available:
+**Live Link**: https://healthier-choice.netlify.app/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- Camera-based label capture using the browser camera
+- Image preprocessing for better OCR accuracy
+- OCR text extraction with `tesseract.js`
+- Ingredient parsing and editing UI
+- Analysis against a curated Whole Foods banned ingredients list
+- Client-side React routing with `react-router-dom`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## How it works
 
-## Expanding the ESLint configuration
+1. Start on the splash screen and tap “Let’s get started”.
+2. Use the camera view to align the ingredient label and snap a photo.
+3. Confirm the image and let the app convert it into text.
+4. Review the parsed ingredient list and edit any OCR mistakes.
+5. Analyze the ingredients to highlight items that match the banned list.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech stack
+
+- React 19
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Tesseract.js
+
+## Notes
+
+- The ingredient check is currently based on the `wholeFoodsBannedList` data in `src/context/wholeFoodsBannedList.js`.
+- OCR accuracy depends on photo quality, lighting, and label clarity.
+- The app uses a simple exact / substring match strategy for banned ingredient detection.
+
+## Project structure
+
+- `src/App.jsx` — application routes and providers
+- `src/Splash.jsx` — landing screen
+- `src/CameraContainer.jsx` — camera capture and image preprocessing
+- `src/GenerateText.jsx` — OCR, parsed ingredient display, and analysis
+- `src/AnalyzeIngredients.js` — banned ingredient matching logic
+- `src/context/wholeFoodsBannedList.js` — banned ingredient source list
+- `src/context/ImageContext.jsx` — image file state management
+
