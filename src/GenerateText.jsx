@@ -1,7 +1,6 @@
 import Tesseract from "tesseract.js";
 import { useEffect, useState, useContext } from "react";
 import { ImageContext } from "./context/ImageContext";
-import testImage from "/IMG_4334.JPG";
 import { AnalyzeIngredients } from "./AnalyzeIngredients";
 import { wholeFoodsBannedList } from "./context/wholeFoodsBannedList";
 import { useNavigate } from "react-router-dom";
