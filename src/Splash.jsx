@@ -1,8 +1,24 @@
 import { useNavigate } from "react-router-dom";
+import {useEffect} from "react"
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
 const Splash = () => {
 const navigate = useNavigate()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(VITE_BASE_URL + '/test', { method: 'GET' });
+        console.log(res);
+        const data = await res.json();
+        console.log(data)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div style={styles.container} className="flex items-center justify-center">
