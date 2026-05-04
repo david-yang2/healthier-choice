@@ -1,11 +1,16 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import helmet from "helmet"
+import helmet from "helmet";
+import path from "path";
+import { fileURLToPath } from "url";
 import { submitAiRequest } from "./api/AIModel.js";
 
-const PORT = 8001;
+const PORT = process.env.PORT || 8001;
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const distPath = path.join(__dirname, "dist");
 
 app.use(helmet());
 
@@ -34,6 +39,14 @@ app.use(express.json());
 
 app.get("/test", (req, res) => {
   res.json("successful response");
+});
+
+// Serve Vite build output on Render (and other Node hosts).
+app.use(express.static(distPath));
+
+// SPA fallback so routes like /, /about, etc. all return index.html.
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
 });
 
 app.listen(PORT, () => console.log(`Server starting on port ${PORT}`));
