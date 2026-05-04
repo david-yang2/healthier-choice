@@ -29,16 +29,3 @@ html, body, #root {
 body {
   margin: 0;
 }
-
-
-button {
-    background-color: white,;
-    margin: 3px;
-    padding: 5px;
-    border-radius: 5px;
-    border-width: 3px;
-    border-style: outset;
-    width: 45%;
-    font-size:18px;
-    font-weight:bold;
-  }

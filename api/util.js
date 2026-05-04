@@ -1,6 +1,5 @@
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL
-import DOMPurify from "dompurify"
-
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+import DOMPurify from "dompurify";
 
 // function to encode blob image to base64 for OpenAI sdk
 export const convertBLobToBase64 = async (imageBlob) => {
@@ -12,30 +11,26 @@ export const convertBLobToBase64 = async (imageBlob) => {
   };
 
   const base64Str = await blobToBase64(imageBlob);
-  return base64Str
-
+  return base64Str;
 };
 
-
-
 export const postIdentifyHarmfulIngredients = async (blob) => {
-    try {
+  try {
+    const response = await fetch(VITE_BASE_URL + "/api/openai", {
+      method: "POST",
+      headers: {
+        "Content-Type": "image/png",
+      },
+      body: blob,
+    });
 
-      const response = await fetch(VITE_BASE_URL + "/api/openai", {
-        method: "POST",
-        headers: {
-          "Content-Type": "image/png",
-        },
-        body: blob,
-      });
-      
-      const result = await response.json();
-      
-      const sanitizedResult = DOMPurify.sanitize(result);
-      return sanitizedResult
-    } catch (error) {
-      console.error("Error in postIdentifyHarmfulIngredients:", error);
-      throw error;
-    }
+    const result = await response.json();
 
-} 
+    const sanitizedResult = DOMPurify.sanitize(result);
+    // window.sanitizedResult = sanitizedResult; // for debugging
+    return sanitizedResult;
+  } catch (error) {
+    console.error("Error in postIdentifyHarmfulIngredients:", error);
+    throw error;
+  }
+};
