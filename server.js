@@ -1,10 +1,13 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import helmet from "helmet"
 import { submitAiRequest } from "./api/AIModel.js";
 
 const PORT = 8001;
 const app = express();
+
+app.use(helmet());
 
 app.use(
   cors({
