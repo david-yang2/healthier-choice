@@ -1,5 +1,21 @@
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL || "";
+const RAW_BASE_URL = (import.meta.env.VITE_BASE_URL || "").trim();
 import DOMPurify from "dompurify";
+
+const getApiUrl = () => {
+  // In production, ignore localhost-style base URLs and use same-origin API path.
+  if (typeof window !== "undefined") {
+    const isProdHost = window.location.hostname !== "localhost";
+    const isLocalBase = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?/i.test(
+      RAW_BASE_URL,
+    );
+
+    if (isProdHost && isLocalBase) {
+      return "/api/openai";
+    }
+  }
+
+  return `${RAW_BASE_URL}/api/openai`;
+};
 
 // function to encode blob image to base64 for OpenAI sdk
 export const convertBLobToBase64 = async (imageBlob) => {
@@ -16,7 +32,7 @@ export const convertBLobToBase64 = async (imageBlob) => {
 
 export const postIdentifyHarmfulIngredients = async (blob) => {
   try {
-    const response = await fetch(VITE_BASE_URL + "/api/openai", {
+    const response = await fetch(getApiUrl(), {
       method: "POST",
       headers: {
         "Content-Type": "image/png",
