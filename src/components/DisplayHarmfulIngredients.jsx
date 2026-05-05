@@ -29,12 +29,18 @@ const DisplayHarmfulIngredients = () => {
         return;
       }
 
-      // can return valid JSON or an error message
-      const result = await postIdentifyHarmfulIngredients(imageFile);
-      const parsedResult = JSON.parse(result);
-      // checks if there was an error processing img
-      isError(parsedResult);
+      try {
+        // can return valid JSON or an error message
+        const result = await postIdentifyHarmfulIngredients(imageFile);
+        const parsedResult = JSON.parse(result);
+        // checks if there was an error processing img
+        isError(parsedResult);
+      } catch (error) {
+        console.error("Failed to fetch ingredients:", error);
+        setErrorProcessingImg({ error: "Something went wrong. Please try again." });
+      } finally {
         setLoading(false);
+      }
     };
 
     fetchData();

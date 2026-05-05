@@ -1,4 +1,4 @@
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL || "";
 import DOMPurify from "dompurify";
 
 // function to encode blob image to base64 for OpenAI sdk
