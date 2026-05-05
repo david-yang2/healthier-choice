@@ -24,7 +24,18 @@ export const postIdentifyHarmfulIngredients = async (blob) => {
       body: blob,
     });
 
-    const result = await response.json();
+    const rawResponse = await response.text();
+    let result;
+
+    try {
+      result = JSON.parse(rawResponse);
+    } catch {
+      throw new Error(rawResponse || "Server returned an unreadable response.");
+    }
+
+    if (!response.ok) {
+      throw new Error(result?.error || "Image analysis request failed.");
+    }
 
     const sanitizedResult = DOMPurify.sanitize(result);
     // window.sanitizedResult = sanitizedResult; // for debugging

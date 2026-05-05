@@ -8,7 +8,6 @@ const DisplayHarmfulIngredients = () => {
   const [harmfulIngredients, setHarmfulIngredients] = useState();
   const [errorProcessingImg, setErrorProcessingImg] = useState();
   const navigate = useNavigate();
-  const [validResponse, setValidResponse] = useState();
   const [loading, setLoading] = useState(true);
 
   // check to see if we received a valid JSON response
@@ -37,14 +36,16 @@ const DisplayHarmfulIngredients = () => {
         isError(parsedResult);
       } catch (error) {
         console.error("Failed to fetch ingredients:", error);
-        setErrorProcessingImg({ error: "Something went wrong. Please try again." });
+        setErrorProcessingImg({
+          error: error?.message || "Something went wrong. Please try again.",
+        });
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [imageFile]);
+  }, [imageFile, navigate]);
 
   const harmfulIngredientsContent = () => {
     const totalIngredients = harmfulIngredients[0].ingredients.length;

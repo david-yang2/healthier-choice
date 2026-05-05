@@ -24,14 +24,28 @@ const rawBodyParser = express.raw({ type: "*/*", limit: "10mb" });
 
 app.post("/api/openai", rawBodyParser, async (req, res) => {
   try {
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(500).json({
+        error: "Server is missing OPENAI_API_KEY environment variable.",
+      });
+    }
+
+    if (!process.env.OPENAI_MODEL) {
+      return res.status(500).json({
+        error: "Server is missing OPENAI_MODEL environment variable.",
+      });
+    }
+
     const buffer = req.body; // this is your binary data
     const encodedBlob = buffer.toString("base64"); // this will print the base64 string representation of the binary data
     const dataURL = `data:image/png;base64,${encodedBlob}`;
     const harmfulIngredients = await submitAiRequest(dataURL);
     res.json(harmfulIngredients);
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("Error in /api/openai:", error);
+    res.status(500).json({
+      error: error?.message || "Unexpected server error while analyzing image.",
+    });
   }
 });
 
