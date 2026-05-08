@@ -2,6 +2,8 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ImageContext } from "../context/ImageContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const CameraContainer = () => {
   const videoRef = useRef(null);
@@ -129,7 +131,7 @@ const CameraContainer = () => {
                 className="flex items-center justify-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-white shadow hover:bg-blue-700"
                 onClick={submitPhoto}
               >
-                <i className="fa-solid fa-camera text-lg" />
+                <FontAwesomeIcon icon={faCamera} className="text-lg" />
                 Snap photo
               </button>
             </div>
