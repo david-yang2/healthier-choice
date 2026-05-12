@@ -21,10 +21,13 @@ app.use(
   }),
 );
 
+
+const rawBodyParser = express.raw({ type: "*/*", limit: "10mb" });
+
 // rate limiter
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
-  limit: 5,
+  limit: 10,
   standardHeaders: 'draft-8',
   legacyHeaders: false,
   ipv6Subnet: 56,
@@ -35,9 +38,6 @@ const limiter = rateLimit({
 })
 
 app.use(limiter )
-
-const rawBodyParser = express.raw({ type: "*/*", limit: "10mb" });
-
 app.post("/api/openai", rawBodyParser, async (req, res) => {
   try {
     if (!process.env.OPENAI_API_KEY) {
