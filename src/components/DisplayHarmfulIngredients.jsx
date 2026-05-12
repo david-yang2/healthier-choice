@@ -14,10 +14,8 @@ const DisplayHarmfulIngredients = () => {
   const isError = (result) => {
     if (result.error) {
       setErrorProcessingImg(result);
-      console.log("error");
     } else {
       setHarmfulIngredients(result);
-      console.log("no error");
     }
   };
   useEffect(() => {
@@ -35,7 +33,6 @@ const DisplayHarmfulIngredients = () => {
         // checks if there was an error processing img
         isError(parsedResult);
       } catch (error) {
-        console.error("Failed to fetch ingredients:", error);
         setErrorProcessingImg({
           error: error?.message || "Something went wrong. Please try again.",
         });
@@ -46,7 +43,6 @@ const DisplayHarmfulIngredients = () => {
 
     fetchData();
   }, [imageFile, navigate]);
-
   const harmfulIngredientsContent = () => {
     const totalIngredients = harmfulIngredients[0].ingredients.length;
     const harmful = harmfulIngredients[1].harmful_ingredients;

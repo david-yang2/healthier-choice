@@ -56,7 +56,7 @@ export const submitAiRequest = async (base64EncodedImg) => {
       },
     ],
   });
-
+  
   const aiResponse = client.chat.completions.create({
     model: process.env.OPENAI_MODEL,
     messages,
@@ -66,7 +66,6 @@ export const submitAiRequest = async (base64EncodedImg) => {
   });
   try {
     const response = await aiResponse;
-    console.log(response.choices[0].message.content);
     return response.choices[0].message.content;
   } catch (error) {
     console.error("Error in submitAiRequest:", error);

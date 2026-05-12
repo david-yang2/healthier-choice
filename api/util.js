@@ -48,10 +48,15 @@ export const postIdentifyHarmfulIngredients = async (blob) => {
     } catch {
       throw new Error(rawResponse || "Server returned an unreadable response.");
     }
+    if (response.status === 429) {
+      // Prefer backend error message if present
+      throw new Error(result?.error || "You are sending requests too quickly. Please wait and try again");
+    }
 
     if (!response.ok) {
       throw new Error(result?.error || "Image analysis request failed.");
     }
+
 
     const sanitizedResult = DOMPurify.sanitize(result);
     // window.sanitizedResult = sanitizedResult; // for debugging

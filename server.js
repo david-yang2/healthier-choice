@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import path from "path";
+import {rateLimit} from 'express-rate-limit'
 import { fileURLToPath } from "url";
 import { submitAiRequest } from "./api/AIModel.js";
 
@@ -19,6 +20,21 @@ app.use(
     origin: process.env.FRONTEND_PORT,
   }),
 );
+
+// rate limiter
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  limit: 5,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  ipv6Subnet: 56,
+  handler: (req, res) => {
+    res.status(429).json({error: "You are sending requests too quickly. Please wait and try again later"
+  })
+  }
+})
+
+app.use(limiter )
 
 const rawBodyParser = express.raw({ type: "*/*", limit: "10mb" });
 
