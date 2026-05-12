@@ -33,11 +33,23 @@ const limiter = rateLimit({
   ipv6Subnet: 56,
   handler: (req, res) => {
     res.status(429).json({error: "You are sending requests too quickly. Please wait and try again later"
-  })
+    })
   }
 })
+app.use(express.json());
 
-app.use(limiter )
+app.get("/test", (req, res) => {
+  res.json("successful response");
+});
+// Serve Vite build output on Render (and other Node hosts).
+app.use(express.static(distPath));
+
+// SPA fallback so routes like /, /about, etc. all return index.html.
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
+app.use('/api', limiter )
 app.post("/api/openai", rawBodyParser, async (req, res) => {
   try {
     if (!process.env.OPENAI_API_KEY) {
@@ -65,18 +77,6 @@ app.post("/api/openai", rawBodyParser, async (req, res) => {
   }
 });
 
-app.use(express.json());
 
-app.get("/test", (req, res) => {
-  res.json("successful response");
-});
-
-// Serve Vite build output on Render (and other Node hosts).
-app.use(express.static(distPath));
-
-// SPA fallback so routes like /, /about, etc. all return index.html.
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(distPath, "index.html"));
-});
 
 app.listen(PORT, () => console.log(`Server starting on port ${PORT}`));
