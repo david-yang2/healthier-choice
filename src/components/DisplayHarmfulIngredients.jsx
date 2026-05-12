@@ -116,7 +116,7 @@ const DisplayHarmfulIngredients = () => {
       return (
         <div className="w-full">
           <div className="rounded-xl border border-red-200 bg-white shadow-sm">
-            <div className="px-4 py-3 bg-red-50 border-b border-red-200 flex items-center gap-2">
+            <div className="px-4 py-3 bg-red-50 border-b border-red-200 flex items-center gap-2 rounded-t-xl">
               <span className="text-red-500 text-base">⚠️</span>
               <div className="text-sm font-semibold text-red-800">
                 Unable to Analyze Image
