@@ -21,8 +21,17 @@ app.use(
   }),
 );
 
+// hanlde and read JSON request bodies
+app.use(express.json());
 
-const rawBodyParser = express.raw({ type: "*/*", limit: "10mb" });
+// Serve Vite build output on Render (and other Node hosts).
+app.use(express.static(distPath));
+
+// SPA fallback so routes like /, /about, etc. all return index.html.
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
 
 // rate limiter
 const limiter = rateLimit({
@@ -36,20 +45,10 @@ const limiter = rateLimit({
     })
   }
 })
-app.use(express.json());
-
-app.get("/test", (req, res) => {
-  res.json("successful response");
-});
-// Serve Vite build output on Render (and other Node hosts).
-app.use(express.static(distPath));
-
-// SPA fallback so routes like /, /about, etc. all return index.html.
-app.get(/^(?!\/api).*/, (req, res) => {
-  res.sendFile(path.join(distPath, "index.html"));
-});
-
 app.use('/api', limiter )
+
+// handle incoming request body as raw Buffer/binary data (not JSON, text, or URL-encoded)
+const rawBodyParser = express.raw({ type: "*/*", limit: "10mb" });
 app.post("/api/openai", rawBodyParser, async (req, res) => {
   try {
     if (!process.env.OPENAI_API_KEY) {
