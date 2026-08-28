@@ -78,16 +78,19 @@ const CameraContainer = () => {
       /* takephoto function returns a promise that resolves to a Blob */
     }
     const newImage = await takePhoto();
+    // set the captured image in the context
     setImageFile(newImage);
     setPictureTaken(true);
   };
 
+  
   useEffect(() => {
     if (imageFile) {
       navigate("/display");
       return; // stop execution of getVideo if imageFile is set
     }
     getVideo();
+    // redirects to DisplayHarmfulIngredients if imageFile is changed
   }, [imageFile]);
 
   return (

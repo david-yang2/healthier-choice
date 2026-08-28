@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { ImageContext } from "../context/ImageContext";
-import { postIdentifyHarmfulIngredients } from "../../api/util";
+import { postIdentifyHarmfulIngredients } from "../../frontendApi/util.js";
 import { useNavigate } from "react-router-dom";
 
 const DisplayHarmfulIngredients = () => {
@@ -18,9 +18,11 @@ const DisplayHarmfulIngredients = () => {
       setHarmfulIngredients(result);
     }
   };
+
+
   useEffect(() => {
     const fetchData = async () => {
-      // if imagefile is empty, navigate back
+      // if imagefile is empty (no file to analyze), navigate back
       if (!imageFile) {
         navigate("/camera");
         return;
@@ -43,6 +45,7 @@ const DisplayHarmfulIngredients = () => {
 
     fetchData();
   }, [imageFile, navigate]);
+  
   const harmfulIngredientsContent = () => {
     const totalIngredients = harmfulIngredients[0].ingredients.length;
     const harmful = harmfulIngredients[1].harmful_ingredients;

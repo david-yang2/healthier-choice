@@ -7,6 +7,7 @@ import { ImageProvider } from "./context/ImageContext";
 
 const App = () => {
   return (
+    // provide image context for children
     <ImageProvider>
       <BrowserRouter>
         <Routes>

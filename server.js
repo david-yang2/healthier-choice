@@ -5,7 +5,7 @@ import helmet from "helmet";
 import path from "path";
 import {rateLimit} from 'express-rate-limit'
 import { fileURLToPath } from "url";
-import { submitAiRequest } from "./api/AIModel.js";
+import { submitAiRequest, submitAiRequestWithDb } from "./backendApi/AIModel.js";
 
 const PORT = process.env.PORT || 8001;
 const app = express();
@@ -66,7 +66,7 @@ app.post("/api/openai", rawBodyParser, async (req, res) => {
     const buffer = req.body; // this is your binary data
     const encodedBlob = buffer.toString("base64"); // this will print the base64 string representation of the binary data
     const dataURL = `data:image/png;base64,${encodedBlob}`;
-    const harmfulIngredients = await submitAiRequest(dataURL);
+    const harmfulIngredients = await submitAiRequestWithDb(dataURL);
     res.json(harmfulIngredients);
   } catch (error) {
     console.error("Error in /api/openai:", error);
