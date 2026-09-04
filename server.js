@@ -66,7 +66,7 @@ app.post("/api/openai", rawBodyParser, async (req, res) => {
     const buffer = req.body; // this is your binary data
     const encodedBlob = buffer.toString("base64"); // this will print the base64 string representation of the binary data
     const dataURL = `data:image/png;base64,${encodedBlob}`;
-    const harmfulIngredients = await submitAiRequestWithDb(dataURL);
+    const harmfulIngredients = await submitAiRequest(dataURL);
     res.json(harmfulIngredients);
   } catch (error) {
     console.error("Error in /api/openai:", error);
